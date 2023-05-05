@@ -250,5 +250,3 @@ class AllProductsSection extends Component {
 }
 
 export default AllProductsSection
-
-export default AllProductsSection
