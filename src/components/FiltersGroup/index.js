@@ -3,6 +3,56 @@ import {BsSearch} from 'react-icons/bs'
 import './index.css'
 
 const FiltersGroup = props => {
+  const renderRatingsFiltersList = () => {
+    const {ratingsList} = props
+
+    return ratingsList.map(rating => {
+      const {changeRating, activeRatingId} = props
+      const onClickRatingItem = () => changeRating(rating.ratingId)
+
+      const ratingClassName =
+        activeRatingId === rating.ratingId ? `and-up active-rating` : `and-up`
+
+      return (
+        <li
+          className="rating-item"
+          key={rating.ratingId}
+          onClick={onClickRatingItem}
+        >
+          <img
+            src={rating.imageUrl}
+            alt={`rating ${rating.ratingId}`}
+            className="rating-img"
+          />
+          <p className={ratingClassName}>& up</p>
+        </li>
+      )
+    })
+  }
+
+  const renderCategoriesList = () => {
+    const {categoryOptions} = props
+
+    return categoryOptions.map(category => {
+      const {changeCategory, activeCategoryId} = props
+      const onClickCategoryItem = () => changeCategory(category.categoryId)
+      const isActive = category.categoryId === activeCategoryId
+      const categoryClassName = isActive
+        ? `category-name active-category-name`
+        : `category-name`
+
+      return (
+        <li
+          className="category-item"
+          key={category.categoryId}
+          onClick={onClickCategoryItem}
+        >
+          <p className={categoryClassName}>{category.name}</p>
+        </li>
+      )
+    })
+  }
+
   const onEnterSearchInput = event => {
     const {enterSearchInput} = props
     if (event.key === 'Enter') {
@@ -32,10 +82,13 @@ const FiltersGroup = props => {
       </div>
     )
   }
+  const {clearFilters} = props
 
   return (
     <div className="filters-group-container">
       {renderSearchInput()}
+      {renderCategoriesList()}
+      {renderRatingsFiltersList()}
       <button
         type="button"
         className="clear-filters-btn"
